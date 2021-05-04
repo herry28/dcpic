@@ -15,7 +15,7 @@ page {
 page{
   font-size: 28rpx;
   color: #666;
-  background:pink;
+ 
 
 }
 image{
