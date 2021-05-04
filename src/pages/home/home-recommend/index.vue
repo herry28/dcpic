@@ -7,9 +7,14 @@
   >
     <!-- 推荐开始 -->
     <view class="recommend-wrapper">
-      <view class="recommend-item" v-for="item in recommends" :key="item.id">
+      <navigator
+       class="recommend-item" 
+       v-for="item in recommends" 
+       :key="item.id"
+       :url="`/pages/album/index?id=${item.target}`"
+      >
         <image :src="item.thumb" mode="widthFix" />
-      </view>
+      </navigator>
     </view>
     <!-- 推荐结束 -->
 
@@ -52,7 +57,7 @@
 </template>
 
 <script>
-import { getRecommendList } from "../../../utils/api";
+import { getRecommendListApi } from "../../../utils/api";
 import moment from "moment";
 
 export default {
@@ -65,57 +70,64 @@ export default {
         //请求推荐数据的参数
         limit: 30,
         order: "hot",
-        skip: 0,//跳过几条
+        skip: 0, //跳过几条
       },
-	  hasMore:true,//是否还有下一页数据
+      hasMore: true, //是否还有下一页数据
     };
   },
   mounted() {
     this.getRecommendList();
+    uni.setNavigationBarTitle({
+      title: "首页-推荐",
+    });
   },
   methods: {
     // 获取推荐数据
     async getRecommendList() {
-      const res = await getRecommendList(this.recommendParams);
+      const res = await getRecommendListApi(this.recommendParams);
       console.log(res);
 
-	//   判断是否还有下一页数据
-	if(res.res.vertical.length===0){
-		this.hasMore=false
-		return 
-	}
+      //   判断是否还有下一页数据
+      if (res.res.vertical.length === 0) {
+        this.hasMore = false;
+        uni.showToast({
+          title: "没有更多数据了",
+          icon: "none",
+        });
+        return;
+      }
 
-	  if(this.recommends.length===0){//第一次请求
-		//推荐数据
-		this.recommends = res.res.homepage[1].items;
-		//月份数据
-		this.month = res.res.homepage[2];
-		// 处理时间戳：改为18号/1月，moment.js
-		this.month.MM = moment(this.month.stime).format("MM");
-		this.month.DD = moment(this.month.stime).format("DD");
-		// console.log(this.month)
-	  }
+      if (this.recommends.length === 0) {
+        //第一次请求
+        //推荐数据
+        this.recommends = res.res.homepage[1].items;
+        //月份数据
+        this.month = res.res.homepage[2];
+        // 处理时间戳：改为18号/1月，moment.js
+        this.month.MM = moment(this.month.stime).format("MM");
+        this.month.DD = moment(this.month.stime).format("DD");
+        // console.log(this.month)
+      }
 
-    
       //热门数据
-      this.hots = [...this.hots,...res.res.vertical]
+      this.hots = [...this.hots, ...res.res.vertical];
     },
     // 当滚动条触底时触发
     handleScrollToLower() {
-		/**1.修改请求参数 skip+=limit
+      /**1.修改请求参数 skip+=limit
 		 2.重新发请求
 		 3.请求成功，hots数据叠加	 
 		 **/
-		if(this.hasMore){//如果还有下一页数据
-			this.recommendParams.skip += this.recommendParams.limit
-			this.getRecommendList()
-		}else{
-			uni.showToast({
-				title:"没有更多数据了",
-				icon:"none"
-			})
-		}
-	
+      if (this.hasMore) {
+        //如果还有下一页数据
+        this.recommendParams.skip += this.recommendParams.limit;
+        this.getRecommendList();
+      } else {
+        uni.showToast({
+          title: "没有更多数据了",
+          icon: "none",
+        });
+      }
     },
   },
 };

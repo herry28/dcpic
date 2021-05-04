@@ -4,7 +4,13 @@
 		{
 			"path": "pages/home/index",
 			"style": {
-				"navigationBarTitleText": "懂你找图"
+				"navigationBarTitleText": "首页-推荐"
+			}
+		},
+		{
+			"path": "pages/album/index",
+			"style": {
+				"navigationBarTitleText": "专辑详情"
 			}
 		},
 		{
