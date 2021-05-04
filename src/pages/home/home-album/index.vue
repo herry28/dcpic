@@ -42,6 +42,7 @@
 import { getAlbumListApi } from "../../../utils/api";
 
 export default {
+  
   data() {
     return {
       albumParams: {

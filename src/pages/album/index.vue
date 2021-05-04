@@ -23,11 +23,13 @@
     <!--专辑信息：作者、头像、描述结束  -->
 
     <view class="album-list">
-      <view class="album-item" v-for="item in wallpapers" :key="item.id">
-        <image
-          :src="item.thumb + item.rule.replace('$<Height>', 360)"
-          mode="widthFix"
-        />
+      <view class="album-item" v-for="(item,index) in wallpapers" :key="item.id">
+        <go-img-detail :list="wallpapers" :index="index">
+          <image
+            :src="item.thumb + item.rule.replace('$<Height>', 360)"
+            mode="widthFix"
+          />
+        </go-img-detail>
       </view>
     </view>
   </view>
@@ -35,8 +37,12 @@
 
 <script>
 import { getAlbumDetailApi } from "../../utils/api";
+import goImgDetail from "@/components/goImgDetail";
 
 export default {
+  components: {
+    goImgDetail,
+  },
   data() {
     return {
       id: "", //专辑详情id

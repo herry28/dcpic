@@ -8,10 +8,10 @@
     <!-- 推荐开始 -->
     <view class="recommend-wrapper">
       <navigator
-       class="recommend-item" 
-       v-for="item in recommends" 
-       :key="item.id"
-       :url="`/pages/album/index?id=${item.target}`"
+        class="recommend-item"
+        v-for="item in recommends"
+        :key="item.id"
+        :url="`/pages/album/index?id=${item.target}`"
       >
         <image :src="item.thumb" mode="widthFix" />
       </navigator>
@@ -31,11 +31,17 @@
         <view class="more">更多></view>
       </view>
       <view class="month-content-wrapper">
-        <view class="month-item" v-for="item in month.items" :key="item.id">
-          <image
-            mode="aspectFill"
-            :src="item.thumb + item.rule.replace('$<Height>', 360)"
-          />
+        <view
+          class="month-item"
+          v-for="(item, index) in month.items"
+          :key="item.id"
+        >
+          <go-img-detail :list="month.items" :index="index">
+            <image
+              mode="aspectFill"
+              :src="item.thumb + item.rule.replace('$<Height>', 360)"
+            />
+          </go-img-detail>
         </view>
       </view>
     </view>
@@ -47,8 +53,10 @@
         <text>热门</text>
       </view>
       <view class="hots-content">
-        <view class="hots-item" v-for="item in hots" :key="item.id">
-          <image :src="item.thumb" mode="" />
+        <view class="hots-item" v-for="(item, index) in hots" :key="item.id">
+          <go-img-detail :list="hots" :index="index">
+            <image :src="item.thumb" mode="" />
+          </go-img-detail>
         </view>
       </view>
     </view>
@@ -59,8 +67,13 @@
 <script>
 import { getRecommendListApi } from "../../../utils/api";
 import moment from "moment";
+import goImgDetail from "@/components/goImgDetail";
+
 
 export default {
+  components: {
+    goImgDetail,
+  },
   data() {
     return {
       recommends: [], //推荐列表
