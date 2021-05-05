@@ -27,7 +27,6 @@
         <go-img-detail :list="wallpapers" :index="index">
           <image
             :src="item.thumb + item.rule.replace('$<Height>', 360)"
-            mode="widthFix"
           />
         </go-img-detail>
       </view>
@@ -155,6 +154,7 @@ export default {
     width: 33.33%;
     border: 3rpx solid #fff;
     image {
+      height: 160rpx;
     }
   }
 }
