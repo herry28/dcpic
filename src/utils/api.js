@@ -25,3 +25,10 @@ export const getAlbumDetailApi=(data,id)=>{
         data
     })
 }
+//请求图片详情-评论数据
+export const getImgDetailCommentsApi=(id)=>{
+    return request({
+        url:baseUrl+`/v2/wallpaper/wallpaper/${id}/comment`,
+
+    })
+}
