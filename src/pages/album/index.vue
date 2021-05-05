@@ -58,8 +58,8 @@ export default {
     };
   },
   onLoad(options) {
-    // this.id = options.id;
-    this.id="5d5f8e45e7bce75ae7fb8278"//小熊猫专辑测试id
+    this.id = options.id;
+    // this.id="5d5f8e45e7bce75ae7fb8278"//小熊猫专辑测试id
     this.getAlbumDetail();
   },
   // 当页面触底时触发
